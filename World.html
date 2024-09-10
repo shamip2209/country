@@ -1,0 +1,218 @@
+<!-- common,official,currencies,capital,language,borders,area,maps,population,timezone,continent,flags-png -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Country</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+        <!-- google fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=SUSE:wght@100..800&display=swap" rel="stylesheet">
+</head>
+
+<body class="w-100" style="background-image: url(https://plus.unsplash.com/premium_photo-1679998166179-ff35e219ab7e?q=80&w=2004&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D); 
+    background-size: cover; 
+    background-position: center;
+    height:150vh; 
+    width: 100vw; 
+    margin: 0;"> 
+    <div class="container-fluid">
+        <div class="p-2 rounded mt-4 w-60 align-items-center ms-5 me-5" style="background-color:rgb(155, 168, 167) ;border-radius: 30px; opacity: 0.6;position: relative;">
+            <div>
+                <h1 class="text-center  text-light" style="font-family: 'SUSE', sans-serif;">DISCOVER THE COUNTRY</h1>
+            </div>
+
+            <div class="d-flex justify-content-center mt-3 ms-3 me-3">
+                <input id="inputvalue" class="p-1 rounded mb-2 " placeholder="Enter Country name here..." style="width: 500px;border-color: white;border-block-color: white;"></input>
+                <button class="btn btn-light ms-3 btn-outline-yellow rounded mb-2" onclick="search()">
+                    <i class="fa-solid fa-magnifying-glass me-2 text-dark"></i>search</button>
+            </div>
+            
+            <p id="error" class="d-none text-center" style="color: red;"></p>
+            </div>
+            <div id="details" class="w-100 p-5 overflow-y:scroll" style="position: absolute;"></div>
+        </div>
+       
+    </div>
+
+</body>
+<script>
+    async function search() {
+        console.log("input value", inputvalue.value);
+        if (inputvalue.value) {
+            const response = await fetch(`https://restcountries.com/v3.1/name/${inputvalue.value}?fullText=true`)
+            console.log(response);
+            response.json().then((data) => {
+                console.log(data[0]);
+
+                //common
+                const common = data[0].name.common
+                console.log(common);
+
+                //official
+                const official = data[0].name.official
+                console.log(official);
+
+                //currencies
+                for (var cur in data[0].currencies) {
+                    var currencyname = data[0].currencies[cur].name
+                    var currencysymbol = data[0].currencies[cur].symbol
+                }
+                console.log(currencyname);
+                console.log(currencysymbol);
+
+
+
+                //capital
+                const capital = data[0].capital
+                console.log(capital);
+
+                //language
+                let language = data[0].languages
+                let nationalLanguage = []
+                for (lang in language) {
+                    console.log(lang);
+                    nationalLanguage.push(language[lang])
+
+
+                }
+                console.log(nationalLanguage);
+
+
+
+                //borders
+                const borders = data[0].borders
+                console.log(borders);
+
+                //area
+
+                const area = data[0].area
+                console.log(area);
+
+                //googlemap
+                const map = data[0].maps.googleMaps
+                console.log(map);
+                //population
+                const population = data[0].population
+                console.log(population);
+
+                //timezone
+                const timeZone = data[0].timezones
+                console.log(timeZone);
+                //continent
+                const continents = data[0].continents
+                console.log(continents);
+                //flag-png
+                const flag = data[0].flags.png
+                console.log(flag);
+
+                const scrollPosition = details.scrollHeight;
+                window.scrollTo({
+                    top: scrollPosition,
+                    behavior: 'smooth'
+                });
+
+                details.innerHTML = `<div class="justify-content-center mt-5">
+    <div class="d-flex justify-content-center align-items-center">
+
+        <div class="card" style="width: 18rem;">
+            <img src="${flag}" class="card-img-top" alt="no image">
+        </div>
+    </div>
+
+
+    <div class="d-flex justify-content-center mt-3 bg-transaprent badge">
+        <div class="card text-center" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">${common}</h5>
+                <p class="card-text">${official}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <div class="row mt-3">
+    <div class="col-md-1"></div>
+    <div class="col-sm-4 mb-3 mb-sm-0">
+      <div class="card h-100 shadow-lg" style="border: rgb(190, 173, 138);">
+        <div class="card-header text-white text-center"style="background: rgb(128, 118, 97);" >
+          <h5>Country Information</h5>
+        </div>
+        <div class="card-body d-flex flex-column">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Currencies:</strong> <span class="fw-bold">${currencyname}</span>, <span class="text-muted">${currencysymbol}</span></li>
+                <li class="list-group-item"><strong>Capital:</strong> <span class="fw-bold">${capital}</span></li>
+                <li class="list-group-item"><strong>Languages:</strong> <span class="text-muted">${nationalLanguage.join(', ')}</span></li>
+                <li class="list-group-item"><strong>Borders:</strong> <span class="text-muted">${borders.join(', ')}</span></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+    
+
+
+    <div class="col-md-2"></div>
+    <div class="col-sm-4">
+      <div class="card h-100 shadow-lg" style="border: rgb(190, 173, 138);">
+        <div class="card-header text-white text-center" style="background: rgb(144, 154, 87);">
+          <h5>Additional Information</h5>
+        </div>
+        <div class="card-body d-flex flex-column">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Area:</strong> <span class="fw-bold">${area}</span></li>
+                <li class="list-group-item"><strong>Population:</strong> <span class="fw-bold">${population}</span></li>
+                <li class="list-group-item"><strong>Timezone:</strong> <span class="text-muted">${timeZone.join(', ')}</span></li>
+                <li class="list-group-item"><strong>Continent:</strong> <span class="text-muted">${continents}</span></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-1"></div>
+</div>
+
+
+
+<div class="d-flex justify-content-center mt-3">
+        <div class="card text-center" style="width: 18rem;">
+            <div class="card-body">
+                 <p class="card-text text-center" p-2><a href="${map}" style="text-decoration: none;">Locate the Country</a></p>
+            </div>
+        </div>
+</div>
+`
+            })
+        }
+        else {
+            document.getElementById('error').textContent = 'Please enter a country name !';
+            document.getElementById('error').classList.remove('d-none');
+        }
+    }
+
+     // Function to clear the error message when the input field is focused
+    document.getElementById('inputvalue').addEventListener('focus', function() {
+        document.getElementById('error').classList.add('d-none');
+    });
+</script>
+
+</html>
+
+
+
